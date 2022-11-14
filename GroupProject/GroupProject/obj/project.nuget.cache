@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "XqFXaDpFQUq5SvACBhaBHiE/SsQX2/dSdIXDl/uoL1Te7k57k/OMdC1TFD8l1gNAB6/zN6As2BkAHnn3DTYPZw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Quentin\\Documents\\CS3280Project\\GroupProject\\GroupProject\\GroupProject.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Quentin\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.configuration.configurationmanager\\7.0.0\\system.configuration.configurationmanager.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.data.oledb\\7.0.0\\system.data.oledb.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.diagnostics.performancecounter\\7.0.0\\system.diagnostics.performancecounter.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.security.cryptography.protecteddata\\7.0.0\\system.security.cryptography.protecteddata.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.security.permissions\\7.0.0\\system.security.permissions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Quentin\\.nuget\\packages\\system.windows.extensions\\7.0.0\\system.windows.extensions.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
