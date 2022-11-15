@@ -11,7 +11,7 @@ using System.Windows.Media.Media3D;
 
 namespace GroupProject
 {
-    internal class SQLCommands
+    public class SQLCommands
     {
         /// <summary>
         /// single line return sql result
@@ -62,10 +62,10 @@ namespace GroupProject
                 sql.Add("getLineItems", "SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc Where LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = {InvoiceNum}");
                 sql.Add("deleteLineItem", "DELETE FROM LineItems WHERE InvoiceNum = {InvoiceNum}");
                 //Search Window
-                sql.Add("getAllInvoices", "SELECT * FROM Invoices");
-                sql.Add("getInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum}");
+                sql.Add("getAllInvoices", "SELECT * FROM Invoices ORDER BY TotalCost asc");
+                //sql.Add("getInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum}");
                 sql.Add("getDateInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = #{InvoiceDate}#");
-                sql.Add("getInvoiceCostNumDate", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = #{InvoiceDate}# AND TotalCost = {TotalCost}");
+                sql.Add("getInvoiceCostNumDate", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = {InvoiceDate} AND TotalCost = {TotalCost}");
                 sql.Add("getInvoiceCostDate", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost}");
                 sql.Add("getInvoiceCost", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost} and InvoiceDate = #{InvoiceDate}# ");
                 sql.Add("getInvoiceDate", "SELECT * FROM Invoices WHERE InvoiceDate = #{InvoiceDate}#");
@@ -100,11 +100,20 @@ namespace GroupProject
                         execute = replace.Replace(execute, args[i], 1);
                     }
                 }
+
+                bool query = statement.Contains("get");
+                bool CRUD = statement.Contains("add") || statement.Contains("delete") || statement.Contains("update");
+                if(statement == "getInvoice")
+                {
+                    query = false;
+                    CRUD = false;
+                }
+
                 //if its a query
-                if (statement == "getFlights" || statement == "getPassengers")
+                if (query)
                     ds = conn.ExecuteSQLStatement(execute, ref iRet);
                 //if it only returns one value
-                else if (statement == "getPassengerId")
+                else if (CRUD)
                     scalar = conn.ExecuteScalarSQL(execute);
                 //if it is a CRUD statement
                 else
@@ -117,6 +126,12 @@ namespace GroupProject
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
                                     MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
+        }
+        public DataSet execSQL(string statement, string[] args)
+        {
+            DataSet ds = new DataSet();
+            ds = executeSql(statement, args);
+            return ds;
         }
     }
 }
