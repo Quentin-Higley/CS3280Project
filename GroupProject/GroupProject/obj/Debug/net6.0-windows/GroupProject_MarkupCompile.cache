@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 C:\Users\goshj\Desktop\School\GroupProject\CS3280Project\GroupProject\GroupProject\obj\Debug\net6.0-windows\
-GroupProject_yvplavpy_wpftmp
+GroupProject
 none
 false
-TRACE;RELEASE;NET;NET6_0;NETCOREAPP
+TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\goshj\Desktop\School\GroupProject\CS3280Project\GroupProject\GroupProject\App.xaml
 2-2085024664
 
-11-1384698941
-3922104157550
+8-1468298264
+196-1095404873
 MainWindow.xaml;Search\SearchWindow.xaml;
 
-True
+False
 

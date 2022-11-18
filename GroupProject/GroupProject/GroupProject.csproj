@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Mainwindow\" />
     <Folder Include="Main\" />
     <Folder Include="Item\" />
   </ItemGroup>
