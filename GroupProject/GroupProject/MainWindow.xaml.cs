@@ -20,9 +20,13 @@ namespace GroupProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        SQLCommands conn = new SQLCommands();
+        Search.SearchWindow searchWindow;
         public MainWindow()
         {
             InitializeComponent();
+            searchWindow = new Search.SearchWindow(conn);
+            searchWindow.Show();
         }
     }
 }

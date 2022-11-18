@@ -22,7 +22,7 @@ namespace Assignment6AirlineReservation
         /// </summary>
 		public clsDataAccess()
         {
-            sConnectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data source= " + Directory.GetCurrentDirectory() + "\\Invoice.mdb";
+            sConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source= " + Directory.GetCurrentDirectory() + "\\Invoice.mdb";
         }
 
         /// <summary>
