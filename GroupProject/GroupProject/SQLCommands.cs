@@ -61,14 +61,15 @@ namespace GroupProject
                 sql.Add("getItems", "select ItemCode, ItemDesc, Cost from ItemDesc");
                 sql.Add("getLineItems", "SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost FROM LineItems, ItemDesc Where LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum = {InvoiceNum}");
                 sql.Add("deleteLineItem", "DELETE FROM LineItems WHERE InvoiceNum = {InvoiceNum}");
+                
                 //Search Window
-                sql.Add("getAllInvoices", "SELECT * FROM Invoices ORDER BY TotalCost asc");
+                sql.Add("getAllInvoices", "SELECT * FROM Invoices ORDER BY InvoiceNum asc");
                 //sql.Add("getInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum}");
-                sql.Add("getDateInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = #{InvoiceDate}#");
+                //sql.Add("getDateInvoice", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = #{InvoiceDate}#");
                 sql.Add("getInvoiceCostNumDate", "SELECT * FROM Invoices WHERE InvoiceNum = {InvoiceNum} AND InvoiceDate = {InvoiceDate} AND TotalCost = {TotalCost}");
-                sql.Add("getInvoiceCostDate", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost}");
-                sql.Add("getInvoiceCost", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost} and InvoiceDate = #{InvoiceDate}# ");
-                sql.Add("getInvoiceDate", "SELECT * FROM Invoices WHERE InvoiceDate = #{InvoiceDate}#");
+                //sql.Add("getInvoiceCostDate", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost}");
+                //sql.Add("getInvoiceCost", "SELECT * FROM Invoices WHERE TotalCost = {TotalCost} and InvoiceDate = #{InvoiceDate}# ");
+                //sql.Add("getInvoiceDate", "SELECT * FROM Invoices WHERE InvoiceDate = #{InvoiceDate}#");
             }
             catch (Exception ex)
             {

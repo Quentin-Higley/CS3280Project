@@ -13,9 +13,9 @@
                 <ComboBox x:Name="cbInvoiceDate" Margin="5,5,5,5" Width="100" SelectionChanged="cbInvoiceDate_SelectionChanged"></ComboBox>
                 <ComboBox x:Name="cbInvoiceCost" Margin="5,5,5,5" Width="100" SelectionChanged="cbInvoiceCost_SelectionChanged"></ComboBox>
             </StackPanel>
-            <DataGrid x:Name="dgSearch" Margin="25,5,25,5" Height="325"></DataGrid>
+            <DataGrid x:Name="dgSearch" Margin="25,5,25,5" Height="325" SelectionChanged="dgSearch_SelectionChanged"></DataGrid>
             <StackPanel Orientation="Horizontal" Margin="25,5,25,5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button x:Name="btnSave" Margin="5,5,5,5" Width="50" Click="btnSave_Click">Save</Button>
+                <Button x:Name="btnSave" Margin="5,5,5,5" Width="50" Click="btnSave_Click" IsEnabled="False">Save</Button>
                 <Button x:Name="btnCancel" Margin="5,5,5,5" Width="50" Click="btnCancel_Click">Cancel</Button>
                 <Button x:Name="btnReset" Margin="5,5,5,5" Width="50" Click="btnReset_Click">Clear</Button>
             </StackPanel>

@@ -130,6 +130,9 @@ namespace GroupProject.Search
 
         private void passData()
         {
+            //pass string of selected item
+            Invoice i = (Invoice)dgSearch.SelectedItem;
+            string id = i.Id;
             return;
         }
 
@@ -159,6 +162,13 @@ namespace GroupProject.Search
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             populateControls();
+        }
+
+        private void dgSearch_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(dgSearch.SelectedItem != null)
+                btnSave.IsEnabled = true;
+            
         }
     }
 }
