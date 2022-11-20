@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\Quentin\Documents\CS3280Project\GroupProject\GroupProject\App.xaml
-2-2085024664
+3755527543
 
-10-1530850906
+14-379624216
 196-742271660
-MainWindow.xaml;Search\SearchWindow.xaml;
+Items\wnddItems.xaml;Main\MainWindow.xaml;Search\wndSearch.xaml;
 
-True
+False
 

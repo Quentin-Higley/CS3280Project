@@ -7,15 +7,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Search\SearchWindow.xaml.cs">
+    <Compile Update="Items\wnddItems.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Search\wndSearch.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Items\wnddItems.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Search\SearchWindow.xaml">
+    <Page Update="Main\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Search\wndSearch.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
