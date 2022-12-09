@@ -20,6 +20,12 @@ using System.Reflection;
 
 namespace GroupProject
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    public delegate void DataTransfer(string[] data);
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -47,16 +53,36 @@ namespace GroupProject
         private String[] searchid;
 
         /// <summary>
+        /// 
+        /// </summary>
+        public DataTransfer transferDelegate;
+        /// <summary>
         /// main window constructor
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+            transferDelegate += new DataTransfer(DataMethod);
             conn = new clsDataAccess();
             sql = new SQLCommands(conn);
             mlogic = new clsMainLogic(sql);
             items = mlogic.getLineItems();
             showComboBox(items);
+        }
+
+        public void DataMethod(string[] id)
+        {
+            try
+            {
+                searchid = id;
+                ShowLblContent();
+            }
+            catch (Exception ex)
+            {
+                //Just throw the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -68,7 +94,7 @@ namespace GroupProject
         {
             try
             {
-                wndSearch searchWin = new wndSearch(sql);
+                wndSearch searchWin = new wndSearch(conn, transferDelegate);
                 searchWin.Show(); // open the search window
             }
             catch (Exception ex)
@@ -88,7 +114,7 @@ namespace GroupProject
         {
             try
             {
-                wnddItems itemsWin = new wnddItems(sql);
+                wnddItems itemsWin = new wnddItems(conn, transferDelegate);
                 itemsWin.Show();
 
             }

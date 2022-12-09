@@ -34,20 +34,18 @@ namespace GroupProject.Search
         /// <summary>
         /// 
         /// </summary>
-        MainWindow mainWindow;
+        DataTransfer tDel;
 
         /// <summary>
         /// 
         /// </summary>
-        public wndSearch(SQLCommands sqlCommands)
+        public wndSearch(clsDataAccess conn, DataTransfer tDel)
         {
             InitializeComponent();
-            searchSQL = new clsSearchLogic(sqlCommands);
-
-            mainWindow = ((MainWindow)Application.Current.MainWindow);
-
+            searchSQL = new clsSearchLogic(conn);
             invoices = searchSQL.getInvoices();
             populateControls();
+            this.tDel = tDel;
         }
 
         /// <summary>
@@ -85,9 +83,12 @@ namespace GroupProject.Search
 
                 List<string> ids = invoices.Select(x => x.InvoiceId).ToList();
                 ids.Sort();
+                ids = ids.Distinct().ToList();
                 List<string> dates = invoices.Select(x => x.InvoiceDate).ToList();
                 dates.Sort();
+                dates = dates.Distinct().ToList();
                 List<string> costs = invoices.Select(x => x.InvoiceCost).ToList();
+                costs = costs.Distinct().ToList();
 
                 cbInvoiceId.ItemsSource = ids;
                 cbInvoiceDate.ItemsSource = dates;
@@ -244,7 +245,7 @@ namespace GroupProject.Search
                     //pass string of selected item
                     Invoice i = (Invoice)dgInvoices.SelectedItem;
                     string[] id = new string[] { i.InvoiceId };
-                    mainWindow.searchDataPass(id);
+                    tDel.Invoke(id);
                 }
                 return;
             }

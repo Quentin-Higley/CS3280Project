@@ -22,9 +22,9 @@ namespace GroupProject.Items
     public partial class wnddItems : Window
     {
         /// <summary>
-        /// main window
+        /// 
         /// </summary>
-        MainWindow mainWindow;
+        DataTransfer tDel;
 
         /// <summary>
         /// sql logic for items
@@ -45,16 +45,15 @@ namespace GroupProject.Items
         /// constructor
         /// </summary>
 
-        public wnddItems(SQLCommands sqlCommands)
+        public wnddItems(clsDataAccess conn, DataTransfer tDel)
         {
             InitializeComponent();
-
-            mainWindow = ((MainWindow)Application.Current.MainWindow);
-            itemSql = new clsItemLogic(sqlCommands);
+            itemSql = new clsItemLogic(conn);
             populateControls();
             messeges = new string[] { "Adding item failed", "Item added successfully",
                                       "Updating item failed", "Item updated successfully",
                                       "Deleting item failed", "Deleting item failed, Item in Invoice", "Item deleted successfully" };
+            this.tDel = tDel;
         }
 
         /// <summary>
