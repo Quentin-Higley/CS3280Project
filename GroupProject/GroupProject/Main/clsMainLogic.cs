@@ -6,11 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace GroupProject.Main
 {
     internal class clsMainLogic
     {
+        // TODO: Remove this item
         /// <summary>
         /// sql query helper
         /// </summary>
@@ -19,6 +21,10 @@ namespace GroupProject.Main
         /// list of invoices 
         /// </summary>
         List<Invoice> invoices;
+        /// <summary>
+        /// an invoice to hold the data of a selected invoice or new invoice if one is created
+        /// </summary>
+        Invoice invoice;
 
         /// <summary>
         /// mainlogic constructor
@@ -41,11 +47,11 @@ namespace GroupProject.Main
         }
 
         /// <summary>
-        /// returns all line items
+        /// returns all items
         /// </summary>
         /// <returns>list of items</returns>
         /// <exception cref="Exception">exception</exception>
-        public List<Item> getLineItems()
+        public List<Item> getItems()
         {
             try
             {
@@ -97,12 +103,11 @@ namespace GroupProject.Main
             }
         }
 
-        /*
-         * fuction that creates a new invoice
-         * {
-         *  activate the save, add, and remove btns
-         * }
-         */
+        public Invoice NewInvoice()
+        {
+            invoice = new Invoice("tbd", "", "0");
+            return invoice;
+        }
 
         /*
          * function that edits an existing invoice
@@ -112,6 +117,8 @@ namespace GroupProject.Main
          * activate the save, add, and remove btns
          * }
          */
+
+
 
         /*
          *Function that adds an item to the line items
@@ -124,6 +131,15 @@ namespace GroupProject.Main
          *}
          */
 
+        public String addToCost(String itemCost, String currCost)
+        {
+            int i;
+            int j;
+            Int32.TryParse(currCost, out i);
+            Int32.TryParse(itemCost, out j);
+
+            return (i + j).ToString();
+        }
         /*
          * Function that calculates the total cost of the current invoice
          * {

@@ -48,7 +48,7 @@ namespace GroupProject.Common
         /// <summary>
         /// getter item id
         /// </summary>
-        public string ItemeId { get { return id; } }
+        public string ItemId { get { return id; } }
         /// <summary>
         /// getter item description
         /// </summary>
@@ -56,7 +56,7 @@ namespace GroupProject.Common
         /// <summary>
         /// getter item cost
         /// </summary>
-        public string ItemeCost { get { return cost; } }
+        public string ItemCost { get { return cost; } }
 
         /// <summary>
         /// to string override uses item description for string

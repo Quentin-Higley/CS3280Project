@@ -84,7 +84,7 @@ namespace GroupProject.Items
             try
             {
                 items = itemSql.getItems();
-                List<Item> sorted = items.OrderBy(x => x.ItemeId.Length).ThenBy(x => x.ItemeId).ToList();
+                List<Item> sorted = items.OrderBy(x => x.ItemId.Length).ThenBy(x => x.ItemId).ToList();
                 dgItems.ItemsSource = sorted;
             }
             catch (Exception ex)
@@ -244,7 +244,7 @@ namespace GroupProject.Items
             {
                 int offset = 4;
                 Item selected = (Item)dgItems.SelectedItem;
-                offset += itemSql.deleteItem(selected.ItemeId);
+                offset += itemSql.deleteItem(selected.ItemId);
                 populateControls();
                 lblMessege.Content = messeges[offset];
             }

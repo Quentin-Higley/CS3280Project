@@ -75,7 +75,7 @@ namespace GroupProject.Items
             int updated = 0;
             try
             {
-                string[] args = { desc, cost, selected.ItemeId };
+                string[] args = { desc, cost, selected.ItemId };
                 conn.execSql("updateItem", args);
                 updated++;
                 return updated;

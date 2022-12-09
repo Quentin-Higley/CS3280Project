@@ -23,14 +23,16 @@
             <!--spacing to improve readability-->
             <Label Name="iNumberLbl"    Content="Invoice Number: "                                              Grid.Row="1" Grid.Column="0"/>
             <Label Name="iDateLbl"      Content="Invoice Date: "                                                Grid.Row="1" Grid.Column="0"                                Margin="0,25"/>
+            <TextBox Name="iEnterDate"  Text=""                                                                 Grid.Row="1" Grid.Column="0" Width="120"    Height="20"     Margin="80,30" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap" Visibility="Hidden"/>
             <Label Name="tCostLbl"      Content="Total Cost: "                                                  Grid.Row="1" Grid.Column="0"                                Margin="0,50"/>
             <Label Name="itemLbl"       Content="Item: "                                                        Grid.Row="1" Grid.Column="0"                                Margin="0,150"/>
             <Label Name="costLbl"       Content="Cost: "                                                        Grid.Row="1" Grid.Column="0"                                Margin="0,190"/>
-            <ComboBox Name="iDropDown"                                                                          Grid.Row="1" Grid.Column="0" Width="125"    Height="20"     Margin="38,60,79,232" />
-            <Button Name ="addBtn"      Content="_Add"              Click="addBtn_Click"                        Grid.Row="1" Grid.Column="0" Width="50"     Height="20"     Margin="193,60,24,232"/>
-            <Button Name="removeBtn"    Content="_Remove"           Click="removeBtn_Click"                     Grid.Row="1" Grid.Column="0" Width="50"     Height="20"     Margin="193,189,24,198" />
-            <Button Name="iEditBtn"     Content="_Edit Invoice"     Click="iEditBtn_Click"                      Grid.Row="1" Grid.Column="0" Width="80"     Height="20"     Margin="152,311,35,76"/>
+            <ComboBox Name="iDropDown"                              SelectionChanged="cbChooseItem_Changed"     Grid.Row="1" Grid.Column="0" Width="125"    Height="20"     Margin="38,60,79,232" />
+            <Button Name ="addBtn"      Content="_Add"              Click="addBtn_Click"                        Grid.Row="1" Grid.Column="0" Width="50"     Height="20"     Margin="193,60,24,232"  IsEnabled="False"/>
+            <Button Name="removeBtn"    Content="_Remove"           Click="removeBtn_Click"                     Grid.Row="1" Grid.Column="0" Width="50"     Height="20"     Margin="193,189,24,198" IsEnabled="False"/>
+            <Button Name="iEditBtn"     Content="_Edit Invoice"     Click="iEditBtn_Click"                      Grid.Row="1" Grid.Column="0" Width="80"     Height="20"     Margin="152,311,35,76"  IsEnabled="False"/>
             <Button Name="iSaveBtn"     Content="_Save Invoice"     Click="iSaveBtn_Click" IsEnabled="False"    Grid.Row="1" Grid.Column="0" Width="80"     Height="20"     Margin="35,311,152,76"/>
+            <Button Name="iNewBtn"      Content="_New Invoice"                                                  Grid.Row="1" Grid.Column="0" Width="80"     Height="20"     Margin="35,391,152,76" Click="iNewBtn_Click"/>
             <DataGrid Name="dataGridBox" d:ItemsSource="{d:SampleData ItemCount=10}"                            Grid.Row="1" Grid.Column="1" Width="500"    Height="370"/>
         </Grid>
     </Grid>

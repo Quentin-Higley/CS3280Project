@@ -17,6 +17,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media.Media3D;
 
 namespace GroupProject
 {
@@ -42,6 +44,14 @@ namespace GroupProject
         /// </summary>
         private List<Item> items;
         /// <summary>
+        /// list of the currently selected invoice items
+        /// </summary>
+        private List<Item> invoiceItems;
+        /// <summary>
+        /// makes the storage\calulation of the total cost easier
+        /// </summary>
+        private string totalcost;
+        /// <summary>
         /// invoice id for query
         /// </summary>
         private String[] searchid;
@@ -55,8 +65,10 @@ namespace GroupProject
             conn = new clsDataAccess();
             sql = new SQLCommands(conn);
             mlogic = new clsMainLogic(sql);
-            items = mlogic.getLineItems();
+            invoiceItems = new List<Item>(); // don't populate this because it only will called on later
+            items = mlogic.getItems();
             showComboBox(items);
+            dataGridBox.ItemsSource = invoiceItems;
         }
 
         /// <summary>
@@ -103,11 +115,10 @@ namespace GroupProject
         /// <summary>
         /// shows the selected invoice
         /// </summary>
-        private void ShowLblContent()
+        private void ShowLblContent(Invoice i)
         {
             try
             {
-                Invoice i = mlogic.GetInvoice(searchid);
                 iNumberLbl.Content = "Invoice Number: " + i.InvoiceId; //+ getter.ToString();
                 iDateLbl.Content = "Invoice Date: " + i.InvoiceDate; //+ getter.ToString();
                 tCostLbl.Content = "Total Cost: " + i.InvoiceCost;  //+ getter.ToString();
@@ -129,7 +140,10 @@ namespace GroupProject
         {
             try
             {
-
+                foreach (Item item in items)
+                {
+                    iDropDown.Items.Add(item);
+                }
             }
             catch (Exception ex)
             {
@@ -137,14 +151,28 @@ namespace GroupProject
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
-            foreach (Item item in items)
+        }
+
+        private void cbChooseItem_Changed(object sender, EventArgs e)
+        {
+            try
             {
-                iDropDown.Items.Add(item);
+                Item curritem = (Item)iDropDown.SelectedItem;
+                if (curritem != null)
+                {
+                    costLbl.Content = "Cost: " + curritem.ItemCost;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                    MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
         /// <summary>
-        /// handles adding invoice
+        /// handles adding items to invoice
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">event</param>
@@ -152,10 +180,11 @@ namespace GroupProject
         {
             try
             {
-                /*
-                 * Get the currently selected value from iDropDown and add it to the list
-                 * if it is in the list add to the qty
-                 */
+                Item i = (Item)iDropDown.SelectedItem;
+                invoiceItems.Add(i);
+                dataGridBox.Items.Refresh();
+                totalcost = mlogic.addToCost(totalcost, i.ItemCost);
+                tCostLbl.Content = "Total Cost: " + totalcost;
             }
             catch (Exception ex)
             {
@@ -234,7 +263,7 @@ namespace GroupProject
             try
             {
                 searchid = id;
-                ShowLblContent();
+                ShowLblContent(mlogic.GetInvoice(searchid));
             }
             catch (Exception ex)
             {
@@ -260,6 +289,26 @@ namespace GroupProject
             {
                 System.IO.File.AppendAllText("C:\\Error.txt", Environment.NewLine +
                                              "HandleError Exception: " + ex.Message);
+            }
+        }
+
+        private void iNewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ShowLblContent(mlogic.NewInvoice());
+                addBtn.IsEnabled = true;
+                removeBtn.IsEnabled = true;
+                iSaveBtn.IsEnabled = true;
+                iEnterDate.IsEnabled = true;
+                iEnterDate.Visibility = Visibility.Visible;
+                iNewBtn.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                //Just throw the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
     }
