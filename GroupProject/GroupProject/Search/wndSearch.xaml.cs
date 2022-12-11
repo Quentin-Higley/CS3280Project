@@ -243,7 +243,7 @@ namespace GroupProject.Search
                 {
                     //pass string of selected item
                     Invoice i = (Invoice)dgInvoices.SelectedItem;
-                    string[] id = new string[] { i.InvoiceId };
+                    string id = i.InvoiceId;
                     mainWindow.searchDataPass(id);
                 }
                 return;

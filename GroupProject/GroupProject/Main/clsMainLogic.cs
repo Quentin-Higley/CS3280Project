@@ -1,5 +1,6 @@
 ﻿using GroupProject.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,16 +8,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Web;
+using System.Windows.Controls.Primitives;
 
 namespace GroupProject.Main
 {
     internal class clsMainLogic
     {
-        // TODO: Remove this item
         /// <summary>
-        /// sql query helper
+        /// sql class 
         /// </summary>
-        SQLCommands sql; // takes args as string array
+        clsDataAccess sql;
         /// <summary>
         /// list of invoices 
         /// </summary>
@@ -31,12 +33,13 @@ namespace GroupProject.Main
         /// </summary>
         /// <param name="sql">sql commands object</param>
         /// <exception cref="Exception">exception</exception>
-        public clsMainLogic(SQLCommands sql)
+        public clsMainLogic(clsDataAccess sql)
         {
             try
             {
                 this.sql = sql;
                 invoices = new List<Invoice>();
+                invoices = GetInvoices();
             }
             catch (Exception ex)
             {
@@ -55,7 +58,8 @@ namespace GroupProject.Main
         {
             try
             {
-                DataTable dt = sql.execSql("getItems", null).Tables[0];
+                int iret = 0;
+                DataTable dt = sql.ExecuteSQLStatement("SELECT * FROM ItemDesc order by ItemCode asc", ref iret).Tables[0];
                 List<Item> ilist = new List<Item>();
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -84,7 +88,8 @@ namespace GroupProject.Main
         {
             try
             {
-                DataTable dt = sql.execSql("getAllInvoices", null).Tables[0];
+                int iret = 0;
+                DataTable dt = sql.ExecuteSQLStatement("SELECT * FROM Invoices ORDER BY InvoiceNum asc", ref iret).Tables[0];
                 List<Invoice> ilist = new List<Invoice>();
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -119,7 +124,6 @@ namespace GroupProject.Main
          */
 
 
-
         /*
          *Function that adds an item to the line items
          *arg: item code
@@ -140,27 +144,14 @@ namespace GroupProject.Main
 
             return (i + j).ToString();
         }
-        /*
-         * Function that calculates the total cost of the current invoice
-         * {
-         * get list items in a temp object
-         * for each in invoice line items
-         *  {
-         *  total cost += item cost * nuumber of that item
-         *  }
-         * }
-         * return cost
-         */
 
-        /*
-         * Function that removes an item from the invoice line items
-         * arg: item index
-         * {
-         * if item qty is > 1, decriment the qty
-         * 
-         * if item qty is = 1, remove line item index 
-         * }
-         */
+        public void saveToDB(String cost, String date)
+        {
+            if (invoice.InvoiceId == "tbd")
+            {
+                
+            }
+        }
 
         /*
          * function that pushes the invoice to the db
@@ -180,19 +171,25 @@ namespace GroupProject.Main
          * }
          */
 
-
         /// <summary>
         /// gets an invoice based on id
         /// </summary>
         /// <param name="id">invoice id</param>
         /// <returns></returns>
-        public Invoice GetInvoice(String[] id)
+        public Invoice GetInvoice(String id)
         {
             try
             {
-                DataRow dr = sql.execSql("getInvoice", id).Tables[0].Rows[0];
-                Invoice i = new Invoice(dr.ItemArray[0].ToString(), dr.ItemArray[1].ToString(), dr.ItemArray[2].ToString());
+                Invoice i = new Invoice("null", "null", "null");
+                foreach (Invoice invoice in invoices)
+                {
+                    if (invoice.InvoiceId == id)
+                    {
+                        i = invoice;
+                    }
+                }
                 return i;
+                
             }
             catch (Exception ex)
             {
@@ -200,6 +197,25 @@ namespace GroupProject.Main
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
                                     MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
+        }
+        
+        public List<Item> getInvoiceItems(String id)
+        {
+            List<Item> ilist = new List<Item>();
+            int iret = 0;
+            DataTable dt = sql.ExecuteSQLStatement("SELECT LineItems.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost "
+                                                  +"FROM LineItems, ItemDesc Where LineItems.ItemCode = ItemDesc.ItemCode And LineItems.InvoiceNum =" + id,
+                                                  ref iret).Tables[0];
+            foreach (DataRow dr in dt.Rows)
+            {
+                Item i = new Item(dr.ItemArray[0].ToString(),
+                                  dr.ItemArray[1].ToString(),
+                                  dr.ItemArray[2].ToString());
+                ilist.Add(i);
+            }
+
+
+            return ilist;
         }
     }
 }

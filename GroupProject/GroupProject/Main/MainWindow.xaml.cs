@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using System.Reflection;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Media3D;
+using System.IO.IsolatedStorage;
 
 namespace GroupProject
 {
@@ -30,7 +31,7 @@ namespace GroupProject
         /// <summary>
         /// database connection
         /// </summary>
-        private clsDataAccess conn;
+        private clsDataAccess sql2;
         /// <summary>
         /// sql helper
         /// </summary>
@@ -54,7 +55,7 @@ namespace GroupProject
         /// <summary>
         /// invoice id for query
         /// </summary>
-        private String[] searchid;
+        private String searchid;
 
         /// <summary>
         /// main window constructor
@@ -62,9 +63,9 @@ namespace GroupProject
         public MainWindow()
         {
             InitializeComponent();
-            conn = new clsDataAccess();
-            sql = new SQLCommands(conn);
-            mlogic = new clsMainLogic(sql);
+            sql2 = new clsDataAccess();
+            sql = new SQLCommands(sql2);
+            mlogic = new clsMainLogic(sql2);
             invoiceItems = new List<Item>(); // don't populate this because it only will called on later
             items = mlogic.getItems();
             showComboBox(items);
@@ -119,10 +120,9 @@ namespace GroupProject
         {
             try
             {
-                iNumberLbl.Content = "Invoice Number: " + i.InvoiceId; //+ getter.ToString();
-                iDateLbl.Content = "Invoice Date: " + i.InvoiceDate; //+ getter.ToString();
-                tCostLbl.Content = "Total Cost: " + i.InvoiceCost;  //+ getter.ToString();
-                //costLbl.Content = "Cost: " + items[iDropDown.SelectedIndex];
+                iNumberLbl.Content = "Invoice Number: " + i.InvoiceId;
+                iDateLbl.Content = "Invoice Date: " + i.InvoiceDate;
+                tCostLbl.Content = "Total Cost: " + i.InvoiceCost;
             }
             catch (Exception ex)
             {
@@ -153,6 +153,11 @@ namespace GroupProject
             }
         }
 
+        /// <summary>
+        /// A function to handle when the combobox selection changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbChooseItem_Changed(object sender, EventArgs e)
         {
             try
@@ -203,10 +208,16 @@ namespace GroupProject
         {
             try
             {
-                /*
-                 * Get the currently selected value from iDropDown and remove it from the list
-                 * if not in the list do nothing
-                 */
+                Item i = (Item)iDropDown.SelectedItem;
+                foreach (Item item in invoiceItems)
+                {
+                    if (item == i)
+                    {
+                        invoiceItems.Remove(i);
+                        dataGridBox.Items.Refresh();
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -225,7 +236,16 @@ namespace GroupProject
         {
             try
             {
-
+                if (invoiceItems.Count > 0)
+                {
+                    iNewBtn.IsEnabled = false;
+                    addBtn.IsEnabled = true;
+                    removeBtn.IsEnabled = true;
+                    iSaveBtn.IsEnabled = true;
+                    iEnterDate.IsEnabled = true;
+                    iEnterDate.Visibility = Visibility.Visible;
+                    iDateLbl.Content = "Invoice Date:                                          mm/dd/yyyy hh:mm:ss AM/PM";
+                }
             }
             catch (Exception ex)
             {
@@ -244,7 +264,7 @@ namespace GroupProject
         {
             try
             {
-
+                mlogic.saveToDB(totalcost, iEnterDate.Text);
             }
             catch (Exception ex)
             {
@@ -258,12 +278,21 @@ namespace GroupProject
         /// when the search window passes the id arg, store it for later use
         /// </summary>
         /// <param name="i">invoice id</param>
-        public void searchDataPass(String[] id)
+        public void searchDataPass(String id)
         {
             try
             {
                 searchid = id;
                 ShowLblContent(mlogic.GetInvoice(searchid));
+                iEditBtn.IsEnabled = true;
+                List<Item> searchlist = new List<Item>();
+                searchlist = mlogic.getInvoiceItems(searchid);
+                foreach (Item item in searchlist)
+                {
+                    invoiceItems.Add(item);
+                }
+                dataGridBox.Items.Refresh();
+
             }
             catch (Exception ex)
             {
@@ -297,12 +326,15 @@ namespace GroupProject
             try
             {
                 ShowLblContent(mlogic.NewInvoice());
+                invoiceItems.Clear();
+                dataGridBox.Items.Refresh();
                 addBtn.IsEnabled = true;
                 removeBtn.IsEnabled = true;
                 iSaveBtn.IsEnabled = true;
                 iEnterDate.IsEnabled = true;
                 iEnterDate.Visibility = Visibility.Visible;
                 iNewBtn.IsEnabled = false;
+                iDateLbl.Content = "Invoice Date:                                          mm/dd/yyyy hh:mm:ss AM/PM";
             }
             catch (Exception ex)
             {
